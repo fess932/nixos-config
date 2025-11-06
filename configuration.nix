@@ -21,6 +21,9 @@
   users.users.fess932 = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGWnaMdiOE27i//UAmppq1rUuVOBS97CTpFOA8q2Jwm0 fess932"
+    ];
   };
 
   # custom configs
@@ -34,6 +37,7 @@
   #enable services, apps
   programs.hyprland.enable = true; # enable Hyprland
   programs.firefox.enable = true;
+  services.openssh.enable = true;
 
   # install apps
   environment.systemPackages = with pkgs; [
@@ -53,6 +57,9 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+
+
+  # default system setting
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"

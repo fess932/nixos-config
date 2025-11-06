@@ -27,6 +27,7 @@ in
     userName = "fess932";
     userEmail = "fess932@gmail.com";
   };
+  
   programs.home-manager.enable = true;
   programs.wezterm.enable = true;
   
