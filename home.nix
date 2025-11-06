@@ -11,6 +11,7 @@ let
     rofi = "rofi";
     alacritty = "alacritty";
     picom = "picom";
+    hyprshell = "hyprshell";
   };
 in
 
@@ -24,18 +25,20 @@ in
   home.homeDirectory = "/home/fess932";
   programs.git = {
     enable = true;
-    userName = "fess932";
-    userEmail = "fess932@gmail.com";
+    settings.user = {
+      name = "fess932";
+      email = "fess932@gmail.com";
+    };
   };
 
   programs.home-manager.enable = true;
   programs.wezterm.enable = true;
   programs.vscode.enable = true;
+  services.hyprshell.enable = true;
 
   programs.bash = {
     enable = true;
     shellAliases = {
-      btw = "echo i use nixos-btw";
       nrs = "sudo nixos-rebuild switch --flake ~/nixos-config#nixos";
     };
     initExtra = ''
@@ -50,9 +53,9 @@ in
     nixpkgs-fmt
     nodejs
     gcc
-    rofi
     hyprpaper
     waybar
+    hyprshell
   ];
 
   programs.kitty.enable = true; # required for the default Hyprland config

@@ -1,3 +1,23 @@
+configuration {
+  modi: "drun,filebrowser,run";
+  cycle: true;
+  show-icons: true;
+  steal-focus: false;
+
+  /*---------- Window switcher settings ----------*/
+	window-match-fields: "title,class,role,name,desktop";
+	window-command: "wmctrl -i -R {window}";
+	window-format: "{w} - {c} - {t:0}";
+	window-thumbnail: false;
+
+  /*kb-element-next: "Alt_L+Shift";*/
+  /*kb-row-down: "Alt_R+Tab";*/
+  /*kb-accept-entry: '!Alt-Alt_L';*/
+
+  kb-row-down: 'Super+Tab';
+  kb-accept-entry: '!Super+Tab';
+}
+
 
 @theme "solarized.rasi"
 

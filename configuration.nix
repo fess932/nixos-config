@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }:
@@ -18,6 +19,22 @@
 
   time.timeZone = "Europe/Belgrade";
 
+  system.autoUpgrade = {
+    enable = true;
+    flags = [
+      "--print-build-logs"
+    ];
+    flake = "path:${config.users.users.fess932.home}/nixos-config#${config.networking.hostName}";
+    dates = "02:00";
+    randomizedDelaySec = "45min";
+  };
+
+  security.sudo = {
+    enable = true;
+    configFile = ''
+      Defaults timestamp_timeout=30 # Set timeout to 15 minutes
+    '';
+  };
   users.users.fess932 = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
@@ -41,13 +58,12 @@
 
   # install apps
   environment.systemPackages = with pkgs; [
-    kitty
     vim
     wget
     git
-    alacritty
     waybar
     google-chrome
+    gnumake
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
@@ -56,8 +72,6 @@
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-
 
   # default system setting
   nix.settings.experimental-features = [
