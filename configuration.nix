@@ -11,6 +11,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.configurationLimit = 5;
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -29,6 +30,12 @@
     randomizedDelaySec = "45min";
   };
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly"; # Example: run weekly
+    options = "+5";
+  };
+
   security.sudo = {
     enable = true;
     configFile = ''
@@ -42,6 +49,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGWnaMdiOE27i//UAmppq1rUuVOBS97CTpFOA8q2Jwm0 fess932"
     ];
   };
+  services.getty.autologinUser = "fess932";
 
   # custom configs
 

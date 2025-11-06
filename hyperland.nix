@@ -1,15 +1,22 @@
 { ... }:
 {
+
   wayland.windowManager.hyprland = {
     enable = true;
+
     settings = {
 
       general = {
         "$modifier" = "SUPER";
         gaps_in = 4;
         gaps_out = 9;
-        border_size = 2;
+        border_size = 1;
         layout = "dwindle"; # dwindle or master
+      };
+
+      cursor = {
+        no_hardware_cursors = true;
+        # use_cpu_buffer = true; # This might also be helpful on some systems
       };
 
       exec-once = [
@@ -61,5 +68,14 @@
       };
 
     };
+
+    extraConfig = ''
+      env = ELECTRON_OZONE_PLATFORM_HINT,auto
+      env = LIBVA_DRIVER_NAME,nvidia
+      env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+      env = XDG_SESSION_TYPE,wayland
+      env = GBM_BACKEND,nvidia-drm
+    '';
+
   };
 }
