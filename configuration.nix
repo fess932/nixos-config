@@ -16,6 +16,38 @@
 
   time.timeZone = "Europe/Belgrade";
 
+  users.users.fess932 = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
+  };
+
+  # custom configs
+
+  #nvidia
+  # harware?
+  hardware.graphics.enable = true;
+  hardware.nvidia.open = false; # если зависает попробовать переключить
+  #wayland
+
+  #enable services, apps
+  programs.hyprland.enable = true; # enable Hyprland
+  programs.firefox.enable = true;
+
+  # install apps
+  environment.systemPackages = with pkgs; [
+    kitty
+    vim
+    wget
+    git
+    alacritty
+  ];
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
+  # Optional, hint Electron apps to use Wayland:
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  services.picom.enable = true;
   services.displayManager.ly.enable = true;
   services.xserver = {
     enable = true;
@@ -32,29 +64,6 @@
       	EndSection
     '';
   };
-
-  services.picom.enable = true;
-
-  users.users.tony = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    packages = with pkgs; [
-      tree
-    ];
-  };
-
-  programs.firefox.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    git
-    alacritty
-  ];
-
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-  ];
 
   nix.settings.experimental-features = [
     "nix-command"
