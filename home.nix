@@ -19,6 +19,7 @@ in
   home.username = "fess932";
   home.homeDirectory = "/home/fess932";
   programs.git.enable = true;
+  programs.home-manager.enable = true;
   programs.bash = {
     enable = true;
     shellAliases = {
