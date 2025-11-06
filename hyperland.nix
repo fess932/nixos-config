@@ -14,7 +14,6 @@
 
       exec-once = [
         "waybar"
-        "hyprshell run"
       ];
 
       binds = {
