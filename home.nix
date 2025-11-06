@@ -30,6 +30,7 @@ in
   
   programs.home-manager.enable = true;
   programs.wezterm.enable = true;
+  programs.vscode.enable = true;
   
   programs.bash = {
     enable = true;
