@@ -15,11 +15,21 @@ let
 in
 
 {
+  imports = [
+    ./hyperland.nix
+  ];
+
   home.stateVersion = "25.05";
   home.username = "fess932";
   home.homeDirectory = "/home/fess932";
-  programs.git.enable = true;
+  programs.git = {
+    enable = true;
+    userName = "fess932";
+    userEmail = "fess932@gmail.com";
+  };
   programs.home-manager.enable = true;
+  programs.wezterm.enable = true;
+  
   programs.bash = {
     enable = true;
     shellAliases = {
@@ -39,7 +49,8 @@ in
     nodejs
     gcc
     rofi
-    xwallpaper
+    hyprpaper
+    waybar
   ];
 
   programs.kitty.enable = true; # required for the default Hyprland config
@@ -49,30 +60,5 @@ in
     source = create_symlink "${dotfiles}/${subpath}";
     recursive = true;
   }) configs;
-
-  wayland.windowManager.hyprland.settings = {
-    "$mod" = "SUPER";
-    bind =
-      [
-        "$mod, F, exec, firefox"
-        ", Print, exec, grimblast copy area"
-      ]
-      ++ (
-        # workspaces
-        # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-        builtins.concatLists (
-          builtins.genList (
-            i:
-            let
-              ws = i + 1;
-            in
-            [
-              "$mod, code:1${toString i}, workspace, ${toString ws}"
-              "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-            ]
-          ) 9
-        )
-      );
-  };
 
 }

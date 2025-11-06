@@ -1,0 +1,15 @@
+
+@theme "solarized.rasi"
+
+*{
+  font: "Jetbrains Mono 20";
+}
+
+element {
+  children: [ element-text, element-icon ];
+  spacing: 5px;
+}
+
+element-icon {
+  size: 2.5em;
+}
