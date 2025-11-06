@@ -1,3 +1,5 @@
+sudo nixos-rebuild switch --flake ~/nixos-config#nixos
+
 # references
 
 https://github.com/Andrey0189/nixos-config-reborn

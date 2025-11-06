@@ -10,6 +10,8 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # Use latest kernel.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
@@ -40,34 +42,20 @@
     wget
     git
     alacritty
+    waybar
+    google-chrome
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
   # Optional, hint Electron apps to use Wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-  services.picom.enable = true;
-  services.displayManager.ly.enable = true;
-  services.xserver = {
-    enable = true;
-    autoRepeatDelay = 200;
-    autoRepeatInterval = 35;
-    windowManager.qtile.enable = true;
-    displayManager.sessionCommands = ''
-      xwallpaper --zoom ~/nixos-dotfiles/walls/wall1.png
-    '';
-    extraConfig = ''
-      	Section "Monitor"
-      	  Identifier "Virtual-1"
-      	  Option "PreferredMode" "1920x1080"
-      	EndSection
-    '';
-  };
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }
