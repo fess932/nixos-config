@@ -59,6 +59,7 @@ in
     hyprpaper
     waybar
     hyprshell
+    telegram-desktop
   ];
 
   programs.kitty.enable = true; # required for the default Hyprland config
@@ -73,7 +74,7 @@ in
     gtk.enable = true;
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
-    size = 30;
+    size = 28;
   };
 
   gtk = {
@@ -90,7 +91,7 @@ in
 
     font = {
       name = "Sans";
-      size = 14;
+      size = 13;
     };
   };
 }

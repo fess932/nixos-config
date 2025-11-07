@@ -38,6 +38,8 @@
         "$modifier,1,workspace,1"
         "$modifier,2,workspace,2"
         "$modifier,3,workspace,3"
+        "$modifier,4,workspace,4"
+        "$modifier,5,workspace,5"
       ];
 
       animations = {
@@ -75,12 +77,11 @@
         kb_options=grp:caps_toggle
       }
 
-      env = ELECTRON_OZONE_PLATFORM_HINT,auto
+      env = ELECTRON_OZONE_PLATFORM_HINT,wayland
       env = LIBVA_DRIVER_NAME,nvidia
       env = __GLX_VENDOR_LIBRARY_NAME,nvidia
       env = XDG_SESSION_TYPE,wayland
       env = GBM_BACKEND,nvidia-drm
-      env = HYPRCURSOR_SIZE,26
     '';
 
   };
