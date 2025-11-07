@@ -60,6 +60,7 @@ in
     waybar
     hyprshell
     telegram-desktop
+    prismlauncher
   ];
 
   programs.kitty.enable = true; # required for the default Hyprland config
