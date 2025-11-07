@@ -61,9 +61,9 @@
 
   #enable services, apps
   programs.hyprland.enable = true; # enable Hyprland
+
   programs.firefox.enable = true;
   services.openssh.enable = true;
-
   # install apps
   environment.systemPackages = with pkgs; [
     vim
@@ -72,6 +72,7 @@
     waybar
     google-chrome
     gnumake
+    htop
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono

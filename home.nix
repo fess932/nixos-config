@@ -42,15 +42,18 @@ in
       nrs = "sudo nixos-rebuild switch --flake ~/nixos-config#nixos";
     };
     initExtra = ''
-      	  export PS1="\[\e[38;5;75m\]\u@\h \[\e[38;5;113m\]\w \[\e[38;5;189m\]\$ \[\e[0m\]"
-      	'';
+      export PS1="\[\e[38;5;75m\]\u@\h \[\e[38;5;113m\]\w \[\e[38;5;189m\]\$ \[\e[0m\]"
+      if [ -z "''${WAYLAND_DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
+        dbus-run-session Hyprland
+      fi
+    '';
   };
 
   home.packages = with pkgs; [
     neovim
     ripgrep
     nil
-    nixpkgs-fmt
+    nixfmt-rfc-style
     nodejs
     gcc
     hyprpaper
@@ -66,4 +69,28 @@ in
     recursive = true;
   }) configs;
 
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Classic";
+    size = 30;
+  };
+
+  gtk = {
+    enable = true;
+    theme = {
+      package = pkgs.flat-remix-gtk;
+      name = "Flat-Remix-GTK-Grey-Darkest";
+    };
+
+    iconTheme = {
+      package = pkgs.adwaita-icon-theme;
+      name = "Adwaita";
+    };
+
+    font = {
+      name = "Sans";
+      size = 14;
+    };
+  };
 }

@@ -70,11 +70,17 @@
     };
 
     extraConfig = ''
+      input {
+        kb_layout=us,ru
+        kb_options=grp:caps_toggle
+      }
+
       env = ELECTRON_OZONE_PLATFORM_HINT,auto
       env = LIBVA_DRIVER_NAME,nvidia
       env = __GLX_VENDOR_LIBRARY_NAME,nvidia
       env = XDG_SESSION_TYPE,wayland
       env = GBM_BACKEND,nvidia-drm
+      env = HYPRCURSOR_SIZE,26
     '';
 
   };
