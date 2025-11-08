@@ -61,6 +61,7 @@ in
     hyprshell
     telegram-desktop
     prismlauncher
+    wiremix
   ];
 
   programs.kitty.enable = true; # required for the default Hyprland config

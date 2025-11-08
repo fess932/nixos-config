@@ -4,16 +4,50 @@
   ...
 }:
 
+let
+  falloutGrubTheme = pkgs.fetchFromGitHub {
+    owner = "shvchk";
+    repo = "fallout-grub-theme";
+    rev = "2c51d28701c03c389309e34585ca8ff2b68c23e9";
+    sha256 = "sha256-iQU1Rv7Q0BFdsIX9c7mxDhhYaWemuaNRYs+sR1DF0Rc=";
+  };
+in
+
 {
   imports = [
     ./hardware-configuration.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 5;
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+
+    # systemd-boot.configurationLimit = 5;
+    systemd-boot.enable = false;
+
+    grub = {
+      enable = true;
+      efiSupport = true;
+      device = "nodev"; # если используешь EFI
+      # efiInstallAsRemovable = true;
+      configurationLimit = 5;
+
+      theme = "${falloutGrubTheme}";
+
+      # theme = pkgs.stdenv.mkDerivation {
+      #   pname = "distro-grub-themes";
+      #   version = "3.1";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "AdisonCavani";
+      #     repo = "distro-grub-themes";
+      #     rev = "v3.1";
+      #     hash = "sha256-ZcoGbbOMDDwjLhsvs77C7G7vINQnprdfI37a9ccrmPs=";
+      #   };
+      #   installPhase = "cp -r customize/nixos $out";
+      # };
+    };
+  };
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
