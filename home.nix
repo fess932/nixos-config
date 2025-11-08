@@ -1,4 +1,8 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 
 let
   dotfiles = "${config.home.homeDirectory}/nixos-config/config";
@@ -18,6 +22,8 @@ in
 {
   imports = [
     ./hyperland.nix
+    # inputs.noctalia.homeModules.default
+    ./niri.nix
   ];
 
   home.stateVersion = "25.05";
@@ -62,6 +68,8 @@ in
     telegram-desktop
     prismlauncher
     wiremix
+    xq
+    matugen
   ];
 
   programs.kitty.enable = true; # required for the default Hyprland config

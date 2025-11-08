@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  noctalia,
   ...
 }:
 
@@ -18,8 +19,21 @@ in
     ./hardware-configuration.nix
   ];
 
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true; # связь с драйверами ALSA в ядре
+    alsa.support32Bit = true; # чтобы работали 32-битные игры (Steam и пр.)
+    pulse.enable = true; # слой совместимости для программ, ожидающих PulseAudio
+    # jack.enable = true; # (опционально) совместимость с JACK для аудио-приложений
+    wireplumber.enable = true; # менеджер сессий — обязателен
+  };
+
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+  hardware.firmware = [ pkgs.linux-firmware ];
+
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.loader = {
     efi.canTouchEfiVariables = true;
 
@@ -107,6 +121,11 @@ in
     google-chrome
     gnumake
     htop
+
+    pavucontrol
+    alsa-utils
+
+    noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
