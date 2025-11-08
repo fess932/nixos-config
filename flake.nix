@@ -18,6 +18,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.quickshell.follows = "quickshell"; # Use same quickshell version
     };
+
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs"; # чтобы Niri использовал те же пакеты
+    };
   };
 
   outputs =
@@ -25,6 +30,7 @@
       nixpkgs,
       home-manager,
       noctalia,
+      niri,
       ...
     }:
     let
@@ -40,7 +46,7 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.extraSpecialArgs = {
-              inherit noctalia;
+              inherit noctalia niri;
             };
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

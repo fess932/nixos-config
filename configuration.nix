@@ -109,6 +109,7 @@ in
 
   #enable services, apps
   programs.hyprland.enable = true; # enable Hyprland
+  programs.niri.enable = true; # enable niri
 
   programs.firefox.enable = true;
   services.openssh.enable = true;

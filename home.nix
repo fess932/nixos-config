@@ -45,13 +45,14 @@ in
   programs.bash = {
     enable = true;
     shellAliases = {
-      nrs = "sudo nixos-rebuild switch --flake ~/nixos-config#nixos";
+      starth = "dbus-run-session Hyprland";
+      startn = "dbus-run-session niri";
     };
     initExtra = ''
       export PS1="\[\e[38;5;75m\]\u@\h \[\e[38;5;113m\]\w \[\e[38;5;189m\]\$ \[\e[0m\]"
-      if [ -z "''${WAYLAND_DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
-        dbus-run-session Hyprland
-      fi
+      # if [ -z "''${WAYLAND_DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
+      #   dbus-run-session Hyprland
+      # fi
     '';
   };
 
