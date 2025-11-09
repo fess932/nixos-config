@@ -9,22 +9,16 @@
 let
   dotfiles = "${config.home.homeDirectory}/nixos-config/config";
   create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
-
   # Standard .config/directory
   configs = {
-    qtile = "qtile";
     nvim = "nvim";
     rofi = "rofi";
-    alacritty = "alacritty";
-    picom = "picom";
-    # hyprshell = "hyprshell";
+    wezterm = "wezterm";
   };
 in
 
 {
   imports = [
-    # ./hyperland.nix
-    # inputs.noctalia.homeModules.default
     ./niri.nix
   ];
 
@@ -39,10 +33,57 @@ in
     };
   };
 
+  # shell history
+  programs.atuin = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
   programs.home-manager.enable = true;
   programs.wezterm.enable = true;
   programs.vscode.enable = true;
-  # services.hyprshell.enable = true;
+
+  programs.fish = {
+    enable = true;
+    shellAliases = {
+      # starth = "dbus-run-session Hyprland";
+      startn = "dbus-run-session niri";
+    };
+    # 1️⃣ Выполняется только при входе (TTY1)
+    loginShellInit = ''
+      if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
+          dbus-run-session niri
+      end
+    '';
+
+    interactiveShellInit = ''
+      set fish_greeting ""
+      if status --is-interactive; and type -q microfetch
+        microfetch
+      end
+
+      function fish_prompt
+              # Хост (голубой)
+              set_color '#5f87d7'
+              echo -n (hostname)"@"
+
+              # Пользователь (зелёный)
+              set_color '#87d787'
+              echo -n (whoami)
+
+              # Текущая директория
+              set_color '#afafff'
+              echo -n "/"(prompt_pwd)" "
+
+              # Разделитель (фиолетовый)
+              set_color '#d7afd7'
+              echo -n "❯ "
+
+              # Сброс цвета
+              set_color normal
+          end
+    '';
+  };
 
   programs.bash = {
     enable = true;
@@ -65,9 +106,6 @@ in
     nixfmt-rfc-style
     nodejs
     gcc
-    # hyprpaper
-    # waybar
-    # hyprshell
     telegram-desktop
     prismlauncher
     wiremix
@@ -77,9 +115,6 @@ in
     noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     niri-switch.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
-
-  # programs.kitty.enable = true; # required for the default Hyprland config
-  # wayland.windowManager.hyprland.enable = true; # enable Hyprland
 
   xdg.configFile = builtins.mapAttrs (name: subpath: {
     source = create_symlink "${dotfiles}/${subpath}";

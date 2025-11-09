@@ -31,7 +31,7 @@ in
   services.blueman.enable = true;
   hardware.firmware = [ pkgs.linux-firmware ];
 
-  # Use latest kernel.
+  # Use desktop kernel.
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.loader = {
     efi.canTouchEfiVariables = true;
@@ -46,20 +46,7 @@ in
       # efiInstallAsRemovable = true;
       configurationLimit = 5;
       useOSProber = true;
-
       theme = "${falloutGrubTheme}";
-
-      # theme = pkgs.stdenv.mkDerivation {
-      #   pname = "distro-grub-themes";
-      #   version = "3.1";
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "AdisonCavani";
-      #     repo = "distro-grub-themes";
-      #     rev = "v3.1";
-      #     hash = "sha256-ZcoGbbOMDDwjLhsvs77C7G7vINQnprdfI37a9ccrmPs=";
-      #   };
-      #   installPhase = "cp -r customize/nixos $out";
-      # };
     };
   };
 
@@ -80,7 +67,7 @@ in
 
   nix.gc = {
     automatic = true;
-    dates = "weekly"; # Example: run weekly
+    dates = "weekly"; # run weekly
     options = "+5";
   };
 
@@ -92,6 +79,7 @@ in
   };
   users.users.fess932 = {
     isNormalUser = true;
+    shell = pkgs.fish;
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGWnaMdiOE27i//UAmppq1rUuVOBS97CTpFOA8q2Jwm0 fess932"
@@ -105,20 +93,19 @@ in
   # harware?
   hardware.graphics.enable = true;
   hardware.nvidia.open = false; # если зависает попробовать переключить
-  #wayland
 
   #enable services, apps
   # programs.hyprland.enable = true; # enable Hyprland
   programs.niri.enable = true; # enable niri
-
+  programs.fish.enable = true;
   programs.firefox.enable = true;
+
   services.openssh.enable = true;
   # install apps
   environment.systemPackages = with pkgs; [
     vim
     wget
     git
-    waybar
     google-chrome
     gnumake
     htop
@@ -126,6 +113,7 @@ in
     pavucontrol
     alsa-utils
     file
+    microfetch
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono

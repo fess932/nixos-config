@@ -35,9 +35,6 @@
               useDistroLogo = true;
             }
             {
-              id = "WiFi";
-            }
-            {
               id = "Bluetooth";
             }
           ];
@@ -73,6 +70,7 @@
         enabled = true;
         defaultWallpaper = "~/Downloads/0f6oxa9y9jlb1.png";
         directory = "~/Downloads/";
+        randomEnabled = true;
       };
 
       osd.location = "bottom_center";
@@ -154,9 +152,9 @@
         "Mod+Left".action.focus-column-left = { };
         "Mod+Right".action.focus-column-right = { };
 
-        "Mod+S".action.screenshot-window = {
-          write-to-disk = false;
-        };
+        # "Mod+S".action.screenshot = {
+        #   write-to-disk = false;
+        # };
 
       };
 

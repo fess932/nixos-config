@@ -25,7 +25,7 @@
     };
 
     niri-switch = {
-      url = "github:Kiki-Bouba-Team/niri-switch";
+      url = "github:Kiki-Bouba-Team/niri-switch"; # когода будет nix обновление может выйти родной переключатель окон
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
