@@ -32,11 +32,17 @@
           left = [
             {
               id = "SidePanelToggle";
-              useDistroLogo = true;
+              # useDistroLogo = true;
             }
             {
-              id = "Bluetooth";
+              id = "MediaMini";
+              maxWidth = 200;
+              useFixedWidth = false;
+              showAlbumArt = false;
+              showVisualizer = true;
+              visualizerType = "linear";
             }
+
           ];
           center = [
             {
@@ -44,14 +50,22 @@
               id = "Workspace";
               labelMode = "none";
             }
+
           ];
           right = [
+
+            {
+              id = "Bluetooth";
+            }
             {
               formatHorizontal = "HH:mm";
               formatVertical = "HH mm";
               id = "Clock";
               useMonospacedFont = true;
               usePrimaryColor = true;
+            }
+            {
+              id = "NotificationHistory";
             }
           ];
         };
