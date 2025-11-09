@@ -23,6 +23,11 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs"; # чтобы Niri использовал те же пакеты
     };
+
+    niri-switch = {
+      url = "github:Kiki-Bouba-Team/niri-switch";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -31,6 +36,7 @@
       home-manager,
       noctalia,
       niri,
+      niri-switch,
       ...
     }:
     let
@@ -39,14 +45,14 @@
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit noctalia system; };
+        specialArgs = { inherit system; };
         modules = [
           ./configuration.nix
 
           home-manager.nixosModules.home-manager
           {
             home-manager.extraSpecialArgs = {
-              inherit noctalia niri;
+              inherit noctalia niri niri-switch;
             };
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

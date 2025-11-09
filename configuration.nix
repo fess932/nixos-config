@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  noctalia,
   ...
 }:
 
@@ -46,6 +45,7 @@ in
       device = "nodev"; # если используешь EFI
       # efiInstallAsRemovable = true;
       configurationLimit = 5;
+      useOSProber = true;
 
       theme = "${falloutGrubTheme}";
 
@@ -108,7 +108,7 @@ in
   #wayland
 
   #enable services, apps
-  programs.hyprland.enable = true; # enable Hyprland
+  # programs.hyprland.enable = true; # enable Hyprland
   programs.niri.enable = true; # enable niri
 
   programs.firefox.enable = true;
@@ -125,8 +125,7 @@ in
 
     pavucontrol
     alsa-utils
-
-    noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    file
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono

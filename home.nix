@@ -1,6 +1,8 @@
 {
   config,
   pkgs,
+  niri-switch,
+  noctalia,
   ...
 }:
 
@@ -15,13 +17,13 @@ let
     rofi = "rofi";
     alacritty = "alacritty";
     picom = "picom";
-    hyprshell = "hyprshell";
+    # hyprshell = "hyprshell";
   };
 in
 
 {
   imports = [
-    ./hyperland.nix
+    # ./hyperland.nix
     # inputs.noctalia.homeModules.default
     ./niri.nix
   ];
@@ -40,19 +42,19 @@ in
   programs.home-manager.enable = true;
   programs.wezterm.enable = true;
   programs.vscode.enable = true;
-  services.hyprshell.enable = true;
+  # services.hyprshell.enable = true;
 
   programs.bash = {
     enable = true;
     shellAliases = {
-      starth = "dbus-run-session Hyprland";
+      # starth = "dbus-run-session Hyprland";
       startn = "dbus-run-session niri";
     };
     initExtra = ''
       export PS1="\[\e[38;5;75m\]\u@\h \[\e[38;5;113m\]\w \[\e[38;5;189m\]\$ \[\e[0m\]"
-      # if [ -z "''${WAYLAND_DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
-      #   dbus-run-session Hyprland
-      # fi
+      if [ -z "''${WAYLAND_DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
+        dbus-run-session niri
+      fi
     '';
   };
 
@@ -63,18 +65,21 @@ in
     nixfmt-rfc-style
     nodejs
     gcc
-    hyprpaper
-    waybar
-    hyprshell
+    # hyprpaper
+    # waybar
+    # hyprshell
     telegram-desktop
     prismlauncher
     wiremix
     xq
     matugen
+
+    noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    niri-switch.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
-  programs.kitty.enable = true; # required for the default Hyprland config
-  wayland.windowManager.hyprland.enable = true; # enable Hyprland
+  # programs.kitty.enable = true; # required for the default Hyprland config
+  # wayland.windowManager.hyprland.enable = true; # enable Hyprland
 
   xdg.configFile = builtins.mapAttrs (name: subpath: {
     source = create_symlink "${dotfiles}/${subpath}";
