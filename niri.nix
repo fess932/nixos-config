@@ -152,9 +152,7 @@
         "Mod+Left".action.focus-column-left = { };
         "Mod+Right".action.focus-column-right = { };
 
-        # "Mod+S".action.screenshot = {
-        #   write-to-disk = false;
-        # };
+        "Mod+S".action.screenshot = { };
 
       };
 
