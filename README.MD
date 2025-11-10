@@ -1,7 +1,12 @@
-sudo nixos-rebuild switch --flake ~/nixos-config#nixos
+# how to use
+make
+# how to update
+make update
+
+# TODO:
+- file manager: spacedrive?
 
 # references
-
 https://github.com/Andrey0189/nixos-config-reborn
 
 # ❄️ NixOS Config Reborn
@@ -23,7 +28,7 @@ You can still find my old configuration [here](https://github.com/Andrey0189/nix
 
 ## 🚀 Installation
 
-To get started with this setup, follow these steps:
+To get start ed with this setup, follow these steps:
 
 1. **Install NixOS**: If you haven't already installed NixOS, follow the [NixOS Installation Guide](https://nixos.org/manual/nixos/stable/#sec-installation) for detailed instructions.
 2. **Clone the Repository**:

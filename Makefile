@@ -6,3 +6,6 @@ rebuild:
 update:
 	git add .
 	sudo nix flake update
+
+config-not-nix:
+	./link_config.sh
