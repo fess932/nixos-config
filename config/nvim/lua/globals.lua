@@ -12,13 +12,13 @@ vim.g.logging_level = vim.log.levels.INFO
 ------------------------------------------------------------------------
 --                         builtin variables                          --
 ------------------------------------------------------------------------
-vim.g.loaded_perl_provider = 0 -- Disable perl provider
-vim.g.loaded_ruby_provider = 0 -- Disable ruby provider
-vim.g.loaded_node_provider = 0 -- Disable node provider
+vim.g.loaded_perl_provider = 0      -- Disable perl provider
+vim.g.loaded_ruby_provider = 0      -- Disable ruby provider
+vim.g.loaded_node_provider = 0      -- Disable node provider
 vim.g.did_install_default_menus = 1 -- do not load menu
 
 -- Custom mapping <leader> (see `:h mapleader` for more info)
-vim.g.mapleader = ","
+vim.g.mapleader = " "
 
 -- Enable highlighting for lua HERE doc inside vim script
 vim.g.vimsyn_embed = "l"
@@ -33,7 +33,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.netrw_liststyle = 3
 if vim.g.is_win then
-  vim.g.netrw_http_cmd = "curl --ssl-no-revoke -Lo"
+    vim.g.netrw_http_cmd = "curl --ssl-no-revoke -Lo"
 end
 
 -- Do not load tohtml.vim
