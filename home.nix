@@ -147,12 +147,14 @@ in
         -Djdk.attach.allowAttachSelf=true
         -Djdk.module.illegalAccess.silent=true
         -Dkotlinx.coroutines.debug=off
-        -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
-        -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
+        -XX:ErrorFile=$HOME/java_error_in_idea_%p.log
+        -XX:HeapDumpPath=$HOME/java_error_in_idea.hprof
         -Dawt.toolkit.name=WLToolkit
+        -Dide.browser.jcef.enabled=false
       '';
     })
     teleport
+    mattermost-desktop
 
     noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     niri-switch.packages.${pkgs.stdenv.hostPlatform.system}.default
