@@ -11,11 +11,17 @@
   ];
 
   home.sessionVariables = {
+    GTK_USE_PORTAL = "1"; # важное
+    GDK_BACKEND = "wayland,x11";
+    JETBRAINS_ENABLE_WAYLAND = "1";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+    XDG_SESSION_TYPE = "wayland";
+
     LIBVA_DRIVER_NAME = "nvidia";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    XDG_SESSION_TYPE = "wayland";
     GBM_BACKEND = "nvidia-drm";
+    NVD_BACKEND = "direct";
   };
 
   programs.noctalia-shell = {

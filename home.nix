@@ -41,12 +41,27 @@ in
 
   programs.home-manager.enable = true;
   programs.wezterm.enable = true;
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    extraPackages = with pkgs; [
+      yaml-language-server
+      bash-language-server
+      lua-language-server
+      pyright
+      vim-language-server
+      ruff
+    ];
+  };
+
   programs.vscode.enable = true;
+
+  programs.go.enable = true;
+  programs.bun.enable = true;
 
   programs.fish = {
     enable = true;
     shellAliases = {
-      # starth = "dbus-run-session Hyprland";
       startn = "dbus-run-session niri";
     };
     # 1️⃣ Выполняется только при входе (TTY1)
@@ -100,7 +115,6 @@ in
   };
 
   home.packages = with pkgs; [
-    neovim
     ripgrep
     nil
     nixfmt-rfc-style
@@ -111,6 +125,34 @@ in
     wiremix
     xq
     matugen
+    go-task
+    air
+    dbmate
+    sqlc
+    # jetbrains.goland
+    (jetbrains.goland.override {
+      vmopts = ''
+        -Xms128m
+        -Xmx1024m
+        -XX:ReservedCodeCacheSize=512m
+        -XX:+IgnoreUnrecognizedVMOptions
+        -XX:+UseG1GC
+        -XX:SoftRefLRUPolicyMSPerMB=50
+        -XX:CICompilerCount=2
+        -XX:+HeapDumpOnOutOfMemoryError
+        -XX:-OmitStackTraceInFastThrow
+        -ea
+        -Dsun.io.useCanonCaches=false
+        -Djdk.http.auth.tunneling.disabledSchemes=""
+        -Djdk.attach.allowAttachSelf=true
+        -Djdk.module.illegalAccess.silent=true
+        -Dkotlinx.coroutines.debug=off
+        -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
+        -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
+        -Dawt.toolkit.name=WLToolkit
+      '';
+    })
+    teleport
 
     noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     niri-switch.packages.${pkgs.stdenv.hostPlatform.system}.default

@@ -52,6 +52,13 @@ in
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+  # networking.openvpn.enable = true;
+  services.openvpn.servers = {
+    workVPN = {
+      config = ''config /home/fess932/.ssh/work.ovpn'';
+      updateResolvConf = true;
+    };
+  };
 
   time.timeZone = "Europe/Belgrade";
 
@@ -91,14 +98,42 @@ in
 
   #nvidia
   # harware?
-  hardware.graphics.enable = true;
-  hardware.nvidia.open = false; # если зависает попробовать переключить
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    open = false; # если зависает попробовать переключить
+    modesetting.enable = true; # Modesetting is required.
+
+    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+    # Enable this if you have graphical corruption issues or application crashes after waking
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
+    # of just the bare essentials.
+    powerManagement.enable = false;
+
+    # Fine-grained power management. Turns off GPU when not in use.
+    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+    powerManagement.finegrained = false;
+    nvidiaSettings = true;
+  };
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      nvidia-vaapi-driver
+    ];
+  };
 
   #enable services, apps
   # programs.hyprland.enable = true; # enable Hyprland
   programs.niri.enable = true; # enable niri
   programs.fish.enable = true;
   programs.firefox.enable = true;
+  programs.xfconf.enable = true;
+  programs.thunar.enable = true;
+  programs.thunar.plugins = with pkgs.xfce; [
+    thunar-archive-plugin
+    thunar-volman
+  ];
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
 
   services.openssh.enable = true;
   # install apps
@@ -114,12 +149,21 @@ in
     alsa-utils
     file
     microfetch
+    openssl
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
   ];
-  # Optional, hint Electron apps to use Wayland:
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    GSK_RENDERER = "ngl";
+    # Optional, hint Electron apps to use Wayland:
+    NIXOS_OZONE_WL = "1";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
+    JETBRAINS_ENABLE_WAYLAND = "1";
+    GDK_BACKEND = "wayland,x11";
+    GTK_USE_PORTAL = "1";
+  };
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
