@@ -53,7 +53,6 @@ in
   };
 
   programs.vscode.enable = true;
-
   programs.go.enable = true;
   programs.bun.enable = true;
 
@@ -61,6 +60,7 @@ in
     enable = true;
     shellAliases = {
       startn = "dbus-run-session niri";
+      vim = "nvim";
     };
     # 1️⃣ Выполняется только при входе (TTY1)
     loginShellInit = ''
@@ -153,6 +153,8 @@ in
     })
     teleport
     mattermost-desktop
+    zed-editor
+    starship
   ];
 
   xdg.configFile = builtins.mapAttrs (name: subpath: {

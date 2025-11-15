@@ -29,6 +29,93 @@
     NVD_BACKEND = "direct";
   };
 
+  programs.noctalia-shell = {
+    enable = true;
+    settings = {
+      dock.enabled = false;
+      bar = {
+        # density = "compact";
+        position = "top";
+        showCapsule = false;
+        widgets = {
+          left = [
+            {
+              "colorizeDistroLogo" = false;
+              "customIconPath" = "";
+              "icon" = "noctalia";
+              "id" = "ControlCenter";
+              "useDistroLogo" = false;
+            }
+            {
+              "id" = "SystemMonitor";
+              "showCpuTemp" = true;
+              "showCpuUsage" = true;
+              "showDiskUsage" = false;
+              "showMemoryAsPercent" = false;
+              "showMemoryUsage" = true;
+              "showNetworkStats" = false;
+              "usePrimaryColor" = false;
+            }
+
+            {
+              id = "MediaMini";
+              maxWidth = 200;
+              useFixedWidth = false;
+              showAlbumArt = false;
+              showVisualizer = true;
+              visualizerType = "linear";
+            }
+
+          ];
+          center = [
+            {
+              hideUnoccupied = false;
+              id = "Workspace";
+              labelMode = "none";
+            }
+
+          ];
+          right = [
+
+            {
+              id = "Bluetooth";
+            }
+            {
+              formatHorizontal = "HH:mm";
+              formatVertical = "HH mm";
+              id = "Clock";
+              useMonospacedFont = true;
+              usePrimaryColor = true;
+            }
+            {
+              id = "NotificationHistory";
+            }
+          ];
+        };
+      };
+      colorSchemes.predefinedScheme = "Catppuccin";
+      # general = {
+      #   avatarImage = "/home/fess932/.face";
+      #   radiusRatio = 0.2;
+      # };
+      location = {
+        monthBeforeDay = false;
+        name = "Belgrade, Serbia";
+      };
+
+      wallpaper = {
+        enabled = true;
+        defaultWallpaper = "~/Downloads/0f6oxa9y9jlb1.png";
+        directory = "~/Downloads/";
+        randomEnabled = true;
+      };
+
+      osd.location = "bottom_center";
+    };
+    # this may also be a string or a path to a JSON file,
+    # but in this case must include *all* settings.
+  };
+
   programs.niri.settings = {
     prefer-no-csd = true;
     input.keyboard.xkb = {
@@ -69,7 +156,13 @@
     };
 
     binds = {
-      # "Alt+Tab".action.spawn = [ "niri-switch" ];
+      "Alt+Tab".action.spawn = [ "niri-switch" ];
+
+      # "Mod+P".action.spawn = [
+      #   "niri"
+      #   "msg"
+      #   "pick-window"
+      # ];
 
       "Mod+Space".action.spawn = [
         "noctalia-shell"
@@ -93,7 +186,7 @@
 
       "Mod+Q".action.close-window = { };
       "Mod+Return".action.maximize-column = { };
-      "Alt+Tab".action.focus-column-right-or-first = { };
+      # "Alt+Tab".action.focus-column-right-or-first = { };
       "Alt+O".action.toggle-overview = { };
 
       "Mod+Up".action.focus-window-or-workspace-up = { };
@@ -103,6 +196,26 @@
 
       "Mod+S".action.screenshot = { };
     };
+
+    window-rules = [
+      {
+        matches = [
+          {
+            app-id = "wezterm";
+          }
+          {
+            app-id = "firefox";
+          }
+          {
+            app-id = "google-chrome";
+          }
+          {
+            app-id = "code";
+          }
+        ];
+        open-maximized = true;
+      }
+    ];
 
   };
 }

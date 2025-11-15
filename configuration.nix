@@ -89,7 +89,7 @@ in
   users.users.fess932 = {
     isNormalUser = true;
     shell = pkgs.fish;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel libvirtd kvm" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGWnaMdiOE27i//UAmppq1rUuVOBS97CTpFOA8q2Jwm0 fess932"
     ];
@@ -156,7 +156,23 @@ in
     microfetch
     openssl
     # niri-switch.packages.${stdenv.hostPlatform.system}.default
+
+    virt-manager
+    virt-viewer
+    spice
+    spice-gtk
+    spice-protocol
+    virtio-win
+    win-spice
   ];
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+    };
+    spiceUSBRedirection.enable = true;
+  };
+  services.spice-vdagentd.enable = true;
+
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code

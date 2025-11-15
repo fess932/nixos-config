@@ -52,7 +52,11 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.extraSpecialArgs = {
-              inherit noctalia niri niri-switch;
+              inherit
+                noctalia
+                niri
+                niri-switch
+                ;
             };
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
