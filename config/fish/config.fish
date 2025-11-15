@@ -3,7 +3,7 @@ if status is-interactive
 end
 
 pyenv init - | source
-set -gx TELEPORT_PROXY tp.wb.ru:443
+#set -gx TELEPORT_PROXY tp.wb.ru:443
 
 # Setting PATH for Python 3.12
 # The original version is saved in /Users/fess932/.config/fish/config.fish.pysave

@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  niri,
   ...
 }:
 
@@ -16,6 +17,8 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+    niri.nixosModules.niri
+    #niri.nixosModules.niri
   ];
 
   services.pipewire = {
@@ -52,12 +55,11 @@ in
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  # networking.openvpn.enable = true;
   services.openvpn.servers = {
-    workVPN = {
-      config = ''config /home/fess932/.ssh/work.ovpn'';
-      updateResolvConf = true;
-    };
+    # workVPN = {
+    #   config = ''config /home/fess932/.ssh/work.ovpn'';
+    #   updateResolvConf = true;
+    # };
   };
 
   time.timeZone = "Europe/Belgrade";
@@ -122,8 +124,11 @@ in
   };
 
   #enable services, apps
-  # programs.hyprland.enable = true; # enable Hyprland
+  nixpkgs.overlays = [ niri.overlays.niri ];
   programs.niri.enable = true; # enable niri
+  programs.niri.package = pkgs.niri-unstable;
+
+  programs.dconf.enable = true;
   programs.fish.enable = true;
   programs.firefox.enable = true;
   programs.xfconf.enable = true;
@@ -150,6 +155,7 @@ in
     file
     microfetch
     openssl
+    # niri-switch.packages.${stdenv.hostPlatform.system}.default
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono

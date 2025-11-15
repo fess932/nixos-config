@@ -21,7 +21,7 @@
 
     niri = {
       url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs"; # чтобы Niri использовал те же пакеты
+      # inputs.nixpkgs.follows = "nixpkgs"; # чтобы Niri использовал те же пакеты
     };
 
     niri-switch = {
@@ -45,7 +45,7 @@
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit system; };
+        specialArgs = { inherit system niri; };
         modules = [
           ./configuration.nix
 

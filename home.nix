@@ -1,8 +1,6 @@
 {
   config,
   pkgs,
-  niri-switch,
-  noctalia,
   ...
 }:
 
@@ -155,9 +153,6 @@ in
     })
     teleport
     mattermost-desktop
-
-    noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-    niri-switch.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   xdg.configFile = builtins.mapAttrs (name: subpath: {
