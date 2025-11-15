@@ -10,6 +10,11 @@
     noctalia.homeModules.default
   ];
 
+  home.packages = [
+    noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    niri-switch.packages.${pkgs.stdenv.hostPlatform.system}.default
+  ];
+
   home.sessionVariables = {
     GTK_USE_PORTAL = "1"; # важное
     GDK_BACKEND = "wayland,x11";
@@ -23,11 +28,6 @@
     GBM_BACKEND = "nvidia-drm";
     NVD_BACKEND = "direct";
   };
-
-  home.packages = [
-    noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-    niri-switch.packages.${pkgs.stdenv.hostPlatform.system}.default
-  ];
 
   programs.niri.settings = {
     prefer-no-csd = true;
@@ -102,7 +102,6 @@
       "Mod+Right".action.focus-column-right = { };
 
       "Mod+S".action.screenshot = { };
-
     };
 
   };
