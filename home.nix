@@ -59,13 +59,13 @@ in
   programs.fish = {
     enable = true;
     shellAliases = {
-      startn = "dbus-run-session niri";
+      startn = "dbus-run-session niri &> ~/niri.log";
       vim = "nvim";
     };
     # 1️⃣ Выполняется только при входе (TTY1)
     loginShellInit = ''
       if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
-          dbus-run-session niri
+          dbus-run-session niri &> ~/niri.log
       end
     '';
 
@@ -102,12 +102,12 @@ in
     enable = true;
     shellAliases = {
       # starth = "dbus-run-session Hyprland";
-      startn = "dbus-run-session niri";
+      startn = "dbus-run-session niri &> ~/niri.log";
     };
     initExtra = ''
       export PS1="\[\e[38;5;75m\]\u@\h \[\e[38;5;113m\]\w \[\e[38;5;189m\]\$ \[\e[0m\]"
       if [ -z "''${WAYLAND_DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
-        dbus-run-session niri
+        dbus-run-session niri &> ~/niri.log
       fi
     '';
   };
@@ -155,6 +155,7 @@ in
     mattermost-desktop
     zed-editor
     starship
+    qbittorrent
   ];
 
   xdg.configFile = builtins.mapAttrs (name: subpath: {

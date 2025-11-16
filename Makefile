@@ -1,11 +1,11 @@
 default: rebuild
 rebuild:
 	git add .
-	sudo nixos-rebuild switch --flake ~/nixos-config#nixos
+	nixos-rebuild switch --sudo --flake ~/nixos-config#nixos
 
 update:
 	git add .
-	sudo nix flake update
+	nixos-rebuild switch --sudo --upgrade --flake ~/nixos-config#nixos
 
 config-not-nix:
 	./link_config.sh

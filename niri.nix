@@ -81,7 +81,7 @@
               id = "Bluetooth";
             }
             {
-              formatHorizontal = "HH:mm";
+              formatHorizontal = "HH:mm    [dd dddd]";
               formatVertical = "HH mm";
               id = "Clock";
               useMonospacedFont = true;
@@ -175,13 +175,13 @@
         "wpctl"
         "set-volume"
         "@DEFAULT_AUDIO_SINK@"
-        "0.1+"
+        "0.05+"
       ];
       "XF86AudioLowerVolume".action.spawn = [
         "wpctl"
         "set-volume"
         "@DEFAULT_AUDIO_SINK@"
-        "0.1-"
+        "0.05-"
       ];
 
       "Mod+Q".action.close-window = { };
@@ -211,6 +211,12 @@
           }
           {
             app-id = "code";
+          }
+          {
+            app-id = "zed";
+          }
+          {
+            app-id = "spicy";
           }
         ];
         open-maximized = true;

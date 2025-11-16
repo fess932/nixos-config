@@ -18,7 +18,6 @@ in
   imports = [
     ./hardware-configuration.nix
     niri.nixosModules.niri
-    #niri.nixosModules.niri
   ];
 
   services.pipewire = {
@@ -53,8 +52,31 @@ in
     };
   };
 
-  networking.hostName = "nixos";
-  networking.networkmanager.enable = true;
+  # NETWORKING
+  networking = {
+    hostName = "nixos";
+    dhcpcd.enable = false;
+    defaultGateway = "192.168.0.1";
+    nameservers = [
+      "8.8.8.8"
+      "1.1.1.1"
+    ];
+
+    bridges.br0 = {
+      interfaces = [ "enp5s0" ];
+    };
+    interfaces.br0 = {
+      # useDHCP = true;
+      ipv4.addresses = [
+        {
+          address = "192.168.0.100";
+          prefixLength = 24;
+        }
+      ];
+    };
+  };
+
+  # networking.networkmanager.enable = true;
   services.openvpn.servers = {
     # workVPN = {
     #   config = ''config /home/fess932/.ssh/work.ovpn'';
@@ -77,7 +99,7 @@ in
   nix.gc = {
     automatic = true;
     dates = "weekly"; # run weekly
-    options = "+5";
+    options = "+10";
   };
 
   security.sudo = {
@@ -89,7 +111,11 @@ in
   users.users.fess932 = {
     isNormalUser = true;
     shell = pkgs.fish;
-    extraGroups = [ "wheel libvirtd kvm" ];
+    extraGroups = [
+      "wheel"
+      "libvirtd"
+      "kvm"
+    ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGWnaMdiOE27i//UAmppq1rUuVOBS97CTpFOA8q2Jwm0 fess932"
     ];
@@ -116,10 +142,12 @@ in
     powerManagement.finegrained = false;
     nvidiaSettings = true;
   };
+
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       nvidia-vaapi-driver
+      mesa
     ];
   };
 
@@ -155,7 +183,6 @@ in
     file
     microfetch
     openssl
-    # niri-switch.packages.${stdenv.hostPlatform.system}.default
 
     virt-manager
     virt-viewer
@@ -164,10 +191,22 @@ in
     spice-protocol
     virtio-win
     win-spice
+    xwayland-satellite
   ];
+
   virtualisation = {
     libvirtd = {
       enable = true;
+      qemu = {
+        # важное!
+        swtpm.enable = true; # для Win11
+        package = pkgs.qemu_kvm; # поддержка OpenGL
+        vhostUserPackages = with pkgs; [ virtiofsd ];
+        verbatimConfig = ''
+          # включаем OpenGL backend
+          display = "gtk,gl=on"
+        '';
+      };
     };
     spiceUSBRedirection.enable = true;
   };

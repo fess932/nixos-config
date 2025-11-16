@@ -1,12 +1,17 @@
 # how to use
+
 make
+
 # how to update
+
 make update
 
 # TODO:
+
 - file manager: spacedrive?
 
 # references
+
 https://github.com/Andrey0189/nixos-config-reborn
 
 # ❄️ NixOS Config Reborn
