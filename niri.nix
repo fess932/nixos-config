@@ -78,7 +78,9 @@
           right = [
 
             {
-              id = "Bluetooth";
+              id = "Tray";
+              blacklist = [ ];
+              # colorizeIcons = false;
             }
             {
               formatHorizontal = "HH:mm    [dd dddd]";

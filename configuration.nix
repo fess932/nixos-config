@@ -115,6 +115,7 @@ in
       "wheel"
       "libvirtd"
       "kvm"
+      "podman"
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGWnaMdiOE27i//UAmppq1rUuVOBS97CTpFOA8q2Jwm0 fess932"
@@ -192,9 +193,31 @@ in
     virtio-win
     win-spice
     xwayland-satellite
+    packer
+    xorriso
+    bat
+
+    config.boot.kernelPackages.kernel.src
+  ];
+
+  systemd.tmpfiles.rules = [
+    # L+  = "создать/обновить симлинк"
+    # /usr/src/linux = путь, который ждут разные билд-системы
+    # ${ksrc}/source = реальный путь до исходников ядра
+    "L+ /usr/src/linux-source-${config.boot.kernelPackages.kernel.version} - - - - ${config.boot.kernelPackages.kernel.src}"
   ];
 
   virtualisation = {
+    podman = {
+      enable = true;
+      dockerCompat = true; # Create a `docker` alias for podman, to use it as a drop-in replacement
+      defaultNetwork.settings.dns_enabled = true; # Required for containers under podman-compose to be able to talk to each other.
+      extraPackages = with pkgs; [
+        runc
+        podman-compose
+      ];
+    };
+
     libvirtd = {
       enable = true;
       qemu = {
@@ -211,6 +234,11 @@ in
     spiceUSBRedirection.enable = true;
   };
   services.spice-vdagentd.enable = true;
+
+  services.earlyoom = {
+    enable = true;
+    freeMemThreshold = 10; # % RAM при котором earlyoom начнёт действовать
+  };
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
