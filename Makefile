@@ -6,7 +6,7 @@ rebuild:
 update:
 	git add .
 	nix flake update
-	nixos-rebuild switch --sudo --upgrade --flake /home/fess932/nixos-config#nixos --show-trace --verbose
+	nixos-rebuild switch --sudo --upgrade --flake ~/nixos-config#nixos --show-trace --verbose
 
 config-not-nix:
 	./link_config.sh
