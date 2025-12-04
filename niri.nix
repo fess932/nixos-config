@@ -1,6 +1,6 @@
 {
   noctalia,
-  niri-switch,
+  # niri-switch,
   pkgs,
   ...
 }:
@@ -12,7 +12,7 @@
 
   home.packages = [
     noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-    niri-switch.packages.${pkgs.stdenv.hostPlatform.system}.default
+    # niri-switch.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   home.sessionVariables = {
@@ -134,11 +134,11 @@
           "noctalia-shell"
         ];
       }
-      {
-        command = [
-          "niri-switch-daemon"
-        ];
-      }
+      # {
+      #   command = [
+      #     "niri-switch-daemon"
+      #   ];
+      # }
     ];
 
     layout = {
@@ -158,7 +158,7 @@
     };
 
     binds = {
-      "Alt+Tab".action.spawn = [ "niri-switch" ];
+      # "Alt+Tab".action.spawn = [ "niri-switch" ];
 
       # "Mod+P".action.spawn = [
       #   "niri"
