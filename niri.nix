@@ -134,11 +134,6 @@
           "noctalia-shell"
         ];
       }
-      # {
-      #   command = [
-      #     "niri-switch-daemon"
-      #   ];
-      # }
     ];
 
     layout = {
@@ -158,14 +153,6 @@
     };
 
     binds = {
-      # "Alt+Tab".action.spawn = [ "niri-switch" ];
-
-      # "Mod+P".action.spawn = [
-      #   "niri"
-      #   "msg"
-      #   "pick-window"
-      # ];
-
       "Mod+Space".action.spawn = [
         "noctalia-shell"
         "ipc"

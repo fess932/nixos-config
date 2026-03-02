@@ -115,7 +115,7 @@ in
   home.packages = with pkgs; [
     ripgrep
     nil
-    nixfmt-rfc-style
+    nixfmt
     nodejs
     gcc
     telegram-desktop

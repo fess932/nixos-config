@@ -31,10 +31,11 @@ in
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-  hardware.firmware = [ pkgs.linux-firmware ];
+  hardware.enableRedistributableFirmware = true;
+  # hardware.firmware = [ pkgs.linux-firmware ];
 
   # Use desktop kernel.
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  # boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.loader = {
     efi.canTouchEfiVariables = true;
 
@@ -99,12 +100,12 @@ in
   nix.gc = {
     automatic = true;
     dates = "weekly"; # run weekly
-    options = "+10";
+    options = "--delete-older-than 7d";
   };
 
   security.sudo = {
     enable = true;
-    configFile = ''
+    extraConfig = ''
       Defaults timestamp_timeout=30 # Set timeout to 15 minutes
     '';
   };
@@ -161,11 +162,13 @@ in
   programs.fish.enable = true;
   programs.firefox.enable = true;
   programs.xfconf.enable = true;
-  programs.thunar.enable = true;
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-    thunar-volman
-  ];
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs; [
+      thunar-archive-plugin
+      thunar-volman
+    ];
+  };
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.tumbler.enable = true; # Thumbnail support for images
 
@@ -197,7 +200,7 @@ in
     xorriso
     bat
 
-    config.boot.kernelPackages.kernel.src
+    # config.boot.kernelPackages.kernel.src
   ];
 
   systemd.tmpfiles.rules = [

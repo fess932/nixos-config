@@ -27,7 +27,7 @@
   // build development environment on creation, make sure you already have shell.nix
   // "onCreateCommand": "nix-shell --command 'echo done building nix dev environment'",
 
-  "onCreateCommand": "nix-env -iA nixpkgs.git nixpkgs.vim nixpkgs.curl nixpkgs.nil nixpkgs.nixfmt-rfc-style",
+  "onCreateCommand": "nix-env -iA nixpkgs.git nixpkgs.vim nixpkgs.curl nixpkgs.nil nixpkgs.nixfmt",
 
   // Add the IDs of extensions you want installed when the container is created.
   "customizations": {

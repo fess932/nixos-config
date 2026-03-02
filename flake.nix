@@ -16,18 +16,12 @@
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.quickshell.follows = "quickshell"; # Use same quickshell version
     };
 
     niri = {
       url = "github:sodiboo/niri-flake";
-      # inputs.nixpkgs.follows = "nixpkgs"; # чтобы Niri использовал те же пакеты
+      inputs.nixpkgs.follows = "nixpkgs"; # чтобы Niri использовал те же пакеты
     };
-
-    # niri-switch = {
-    #   url = "github:Kiki-Bouba-Team/niri-switch"; # когода будет nix обновление может выйти родной переключатель окон
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
   };
 
   outputs =
@@ -36,7 +30,6 @@
       home-manager,
       noctalia,
       niri,
-      # niri-switch,
       ...
     }:
     let
@@ -55,7 +48,6 @@
               inherit
                 noctalia
                 niri
-                # niri-switch
                 ;
             };
             home-manager.useGlobalPkgs = true;
