@@ -75,6 +75,16 @@ in
         microfetch
       end
 
+      function auto_source_uv --on-variable PWD
+        if test -d .venv
+            source .venv/bin/activate.fish
+        else
+          if set -q VIRTUAL_ENV
+              deactivate
+          end
+        end
+      end
+
       function fish_prompt
               # Хост (голубой)
               set_color '#5f87d7'

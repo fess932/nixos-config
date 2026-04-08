@@ -216,6 +216,7 @@ in
 
     pciutils
     vulkan-tools
+    nvtopPackages.nvidia
     # config.boot.kernelPackages.kernel.src
   ];
 
@@ -271,11 +272,13 @@ in
     JETBRAINS_ENABLE_WAYLAND = "1";
     GDK_BACKEND = "wayland,x11";
     GTK_USE_PORTAL = "1";
+    LD_LIBRARY_PATH = "/run/opengl-driver/lib";
   };
 
   environment.variables = {
     VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
     VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+    LD_LIBRARY_PATH = "/run/opengl-driver/lib";
   };
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
