@@ -12,7 +12,7 @@ end)
 -- For example, changing the color scheme:
 -- config.color_scheme = 'AdventureTime'
 -- config.font = wezterm.font 'FiraCode Nerd Font'
-config.font_size = 20.0
+config.font_size = 16.0
 config.font = wezterm.font('FiraCode Nerd Font', { weight = 450, stretch = "Normal", italic = false })
 --config.font = wezterm.font 'JetBrains Mono'
 -- config.disable_default_mouse_bindings = true

@@ -29,9 +29,41 @@ in
     wireplumber.enable = true; # менеджер сессий — обязателен
   };
 
-  hardware.bluetooth.enable = true;
+  hardware = {
+    enableRedistributableFirmware = true;
+
+    nvidia = {
+      open = false; # если зависает попробовать переключить
+      modesetting.enable = true; # Modesetting is required.
+
+      # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+      # Enable this if you have graphical corruption issues or application crashes after waking
+      # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
+      # of just the bare essentials.
+      powerManagement.enable = false;
+
+      # Fine-grained power management. Turns off GPU when not in use.
+      # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+      powerManagement.finegrained = false;
+      nvidiaSettings = true;
+    };
+
+    graphics = {
+      enable = true;
+      enable32Bit = true; # для 32-битных игр
+      extraPackages = with pkgs; [
+        nvidia-vaapi-driver
+        mesa
+        vulkan-loader
+        vulkan-validation-layers
+        vulkan-tools
+      ];
+    };
+
+    bluetooth.enable = true;
+  };
+
   services.blueman.enable = true;
-  hardware.enableRedistributableFirmware = true;
   # hardware.firmware = [ pkgs.linux-firmware ];
 
   # Use desktop kernel.
@@ -129,35 +161,13 @@ in
   #nvidia
   # harware?
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    open = false; # если зависает попробовать переключить
-    modesetting.enable = true; # Modesetting is required.
-
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
-    # of just the bare essentials.
-    powerManagement.enable = false;
-
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
-    nvidiaSettings = true;
-  };
-
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      nvidia-vaapi-driver
-      mesa
-    ];
-  };
 
   #enable services, apps
   nixpkgs.overlays = [ niri.overlays.niri ];
   programs.niri.enable = true; # enable niri
   programs.niri.package = pkgs.niri-unstable;
 
+  programs.nix-ld.enable = true;
   programs.dconf.enable = true;
   programs.fish.enable = true;
   programs.firefox.enable = true;
@@ -200,6 +210,12 @@ in
     xorriso
     bat
 
+    uv
+    cudatoolkit
+    cudaPackages.cudnn
+
+    pciutils
+    vulkan-tools
     # config.boot.kernelPackages.kernel.src
   ];
 
@@ -256,13 +272,34 @@ in
     GDK_BACKEND = "wayland,x11";
     GTK_USE_PORTAL = "1";
   };
+
+  environment.variables = {
+    VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+  };
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # default system setting
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+
+  nix.settings = {
+    substituters = [
+      "https://cache.nixos.org"
+      "https://cuda-maintainers.cachix.org"
+    ];
+
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+    ];
+    trusted-users = [
+      "root"
+      "@wheel"
+    ]; # добавить своего юзера
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ]; # включаем экспериментальные функции
+  };
   system.stateVersion = "25.11";
 }

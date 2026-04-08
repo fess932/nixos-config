@@ -20,7 +20,7 @@ in
     ./niri.nix
   ];
 
-  home.stateVersion = "25.05";
+  home.stateVersion = "26.05";
   home.username = "fess932";
   home.homeDirectory = "/home/fess932";
   programs.git = {
@@ -187,4 +187,5 @@ in
       size = 13;
     };
   };
+
 }
