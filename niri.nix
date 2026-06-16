@@ -1,6 +1,5 @@
 {
   noctalia,
-  # niri-switch,
   pkgs,
   ...
 }:
@@ -33,8 +32,21 @@
     enable = true;
     settings = {
       dock.enabled = false;
+      settings = {
+        # This may also be a string or path to a .toml file.
+        theme = {
+          mode = "dark";
+          source = "builtin";
+          builtin = "Catppuccin";
+        };
+
+        wallpaper = {
+          enabled = true;
+          default.path = "~/Downloads/0f6oxa9y9jlb1.png";
+        };
+      };
+
       bar = {
-        # density = "compact";
         position = "top";
         showCapsule = false;
         widgets = {
@@ -95,7 +107,7 @@
           ];
         };
       };
-      colorSchemes.predefinedScheme = "Catppuccin";
+      # colorSchemes.predefinedScheme = "Catppuccin";
       # general = {
       #   avatarImage = "/home/fess932/.face";
       #   radiusRatio = 0.2;
@@ -105,12 +117,12 @@
         name = "Belgrade, Serbia";
       };
 
-      wallpaper = {
-        enabled = true;
-        defaultWallpaper = "~/Downloads/0f6oxa9y9jlb1.png";
-        directory = "~/Downloads/";
-        randomEnabled = true;
-      };
+      # wallpaper = {
+      #   enabled = true;
+      #   defaultWallpaper = "~/Downloads/0f6oxa9y9jlb1.png";
+      #   directory = "~/Downloads/";
+      #   randomEnabled = true;
+      # };
 
       osd.location = "bottom_center";
     };
@@ -131,7 +143,7 @@
     spawn-at-startup = [
       {
         command = [
-          "noctalia-shell"
+          "noctalia"
         ];
       }
     ];
