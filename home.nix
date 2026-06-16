@@ -41,7 +41,9 @@ in
   programs.wezterm.enable = true;
   programs.neovim = {
     enable = true;
+    withPython3 = true;
     defaultEditor = true;
+    sideloadInitLua = true;
     extraPackages = with pkgs; [
       yaml-language-server
       bash-language-server
@@ -170,7 +172,6 @@ in
 
   xdg.configFile = builtins.mapAttrs (name: subpath: {
     source = create_symlink "${dotfiles}/${subpath}";
-    recursive = true;
   }) configs;
 
   home.pointerCursor = {

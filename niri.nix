@@ -29,7 +29,7 @@
     NVD_BACKEND = "direct";
   };
 
-  programs.noctalia-shell = {
+  programs.noctalia = {
     enable = true;
     settings = {
       dock.enabled = false;

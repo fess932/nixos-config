@@ -95,6 +95,8 @@ in
       "1.1.1.1"
     ];
 
+		firewall.enable = false;
+
     bridges.br0 = {
       interfaces = [ "enp5s0" ];
     };
@@ -209,14 +211,26 @@ in
     packer
     xorriso
     bat
-
+		sox
     uv
-    cudatoolkit
-    cudaPackages.cudnn
+    cudaPackages_12_8.cudatoolkit
+		cudaPackages_12_8.cudnn
 
     pciutils
     vulkan-tools
     nvtopPackages.nvidia
+		ffmpeg
+		gdu
+		tmux
+
+		gcc13
+		(runCommand "gcc13-compat" {} ''
+    	mkdir -p $out/bin
+    	ln -s ${gcc13}/bin/gcc $out/bin/gcc-13
+    	ln -s ${gcc13}/bin/g++ $out/bin/g++-13
+    	ln -s ${gcc13}/bin/cpp $out/bin/cpp-13
+  	'')
+  	ninja
     # config.boot.kernelPackages.kernel.src
   ];
 
@@ -279,6 +293,9 @@ in
     VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
     VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
     LD_LIBRARY_PATH = "/run/opengl-driver/lib";
+		CUDA_HOME = "${pkgs.cudaPackages_12_8.cudatoolkit}";
+  	CUDA_PATH = "${pkgs.cudaPackages_12_8.cudatoolkit}";
+		CUDAHOSTCXX = "${pkgs.gcc13}/bin/g++";
   };
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
