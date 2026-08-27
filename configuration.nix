@@ -304,6 +304,8 @@ in
     GDK_BACKEND = "wayland,x11";
     GTK_USE_PORTAL = "1";
     LD_LIBRARY_PATH = "/run/opengl-driver/lib";
+    # rootless podman: lazydocker/oxker/docker-cli ходят в юзерский сокет
+    DOCKER_HOST = "unix://\${XDG_RUNTIME_DIR}/podman/podman.sock";
   };
 
   environment.variables = {
