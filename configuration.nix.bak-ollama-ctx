@@ -167,7 +167,7 @@ in
   #enable services, apps
   nixpkgs.overlays = [ niri.overlays.niri ];
   programs.niri.enable = true; # enable niri
-  programs.niri.package = pkgs.niri;
+  programs.niri.package = pkgs.niri-unstable;
 
   programs.nix-ld.enable = true;
   programs.dconf.enable = true;
@@ -231,10 +231,6 @@ in
     	ln -s ${gcc13}/bin/cpp $out/bin/cpp-13
   	'')
   	ninja
-
-    podman-tui
-    lazydocker
-    oxker
     # config.boot.kernelPackages.kernel.src
   ];
 
@@ -270,19 +266,6 @@ in
       };
     };
     spiceUSBRedirection.enable = true;
-  };
-
-  # Движок подмана наружу по tcp: тесты с testcontainers ходят сюда с другой машины.
-  systemd.user.sockets.podman-tcp = {
-    wantedBy = [ "sockets.target" ];
-    socketConfig = {
-      ListenStream = "0.0.0.0:2375";
-      Service = "podman-tcp.service";
-    };
-  };
-  systemd.user.services.podman-tcp.serviceConfig = {
-    Type = "exec";
-    ExecStart = "${pkgs.podman}/bin/podman system service --time=0";
   };
   services.spice-vdagentd.enable = true;
 
@@ -344,7 +327,6 @@ in
     package = pkgs.ollama-cuda;
     host = "0.0.0.0"; # слушать в локальной сети (firewall выключен)
     port = 11434;
-    environmentVariables.OLLAMA_CONTEXT_LENGTH = "32768";
   };
 
   system.stateVersion = "25.11";
