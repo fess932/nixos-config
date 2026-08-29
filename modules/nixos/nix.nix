@@ -5,12 +5,10 @@
   nix.settings = {
     substituters = [
       "https://cache.nixos.org"
-      "https://cuda-maintainers.cachix.org"
     ];
 
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
     ];
 
     trusted-users = [
@@ -22,12 +20,30 @@
       "nix-command"
       "flakes"
     ];
+
+    # Если кэш недоступен или в нём нет пути — собрать локально, а не упасть.
+    fallback = true;
+
+    # Дефолт 15 с: недоступная подстановочная кэш-точка вешает старт сборки.
+    connect-timeout = 5;
+
+    # Машина используется как один большой devShell: не давать GC уносить
+    # выходы деривации, из которых собран текущий шелл/проект.
+    # keep-derivations уже true по умолчанию.
+    keep-outputs = true;
   };
 
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 7d";
+  };
+
+  # Дедупликация store хардлинками. Отдельным заданием, а не auto-optimise-store,
+  # чтобы не замедлять каждую сборку.
+  nix.optimise = {
+    automatic = true;
+    dates = [ "weekly" ];
   };
 
   system.autoUpgrade = {

@@ -20,10 +20,8 @@
     enable32Bit = true; # для 32-битных игр
     extraPackages = with pkgs; [
       nvidia-vaapi-driver
-      mesa
       vulkan-loader
-      vulkan-validation-layers
-      vulkan-tools
+      vulkan-validation-layers # ICD-слой, подхватывается загрузчиком Vulkan
     ];
   };
 

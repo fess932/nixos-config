@@ -96,6 +96,5 @@
   home.packages = with pkgs; [
     ripgrep
     xq
-    starship
   ];
 }
