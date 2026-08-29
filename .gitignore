@@ -1,1 +1,12 @@
+# сборки nixos-rebuild
 result
+result-*
+
+# мусор macOS
+.DS_Store
+
+# генерится nvim, не конфиг
+tags
+.netrwhist
+*.log
+config/nvim/spell/*.spl

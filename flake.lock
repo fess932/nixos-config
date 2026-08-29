@@ -165,34 +165,13 @@
         "type": "github"
       }
     },
-    "quickshell": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1787970433,
-        "narHash": "sha256-BAkjkXBJcN6LcVWrWbKNh9zaj4l2HSP4Ce5R5VQbdww=",
-        "owner": "outfoxxed",
-        "repo": "quickshell",
-        "rev": "ec0be5b36f2d409e66dfe634169a04a4702d3039",
-        "type": "github"
-      },
-      "original": {
-        "owner": "outfoxxed",
-        "repo": "quickshell",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "claude-code": "claude-code",
         "home-manager": "home-manager",
         "niri": "niri",
         "nixpkgs": "nixpkgs_2",
-        "noctalia": "noctalia",
-        "quickshell": "quickshell"
+        "noctalia": "noctalia"
       }
     },
     "systems": {
