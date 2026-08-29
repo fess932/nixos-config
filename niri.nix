@@ -166,12 +166,35 @@
 
     binds = {
       "Mod+Space".action.spawn = [
-        "noctalia-shell"
-        "ipc"
-        "call"
+        "noctalia"
+        "msg"
+        "panel-toggle"
         "launcher"
-        "toggle" # ✅
       ];
+      "Mod+S".action.spawn = [
+        "noctalia"
+        "msg"
+        "panel-toggle"
+        "control-center"
+      ];
+      
+      "Mod+Q".action.close-window = { };
+      "Mod+Return".action.maximize-column = { };
+      # "Alt+Tab".action.focus-column-right-or-first = { };
+      "Alt+O".action.toggle-overview = { };
+      "Mod+Up".action.focus-window-or-workspace-up = { };
+      "Mod+Down".action.focus-window-or-workspace-down = { };
+      "Mod+Left".action.focus-column-left = { };
+      "Mod+Right".action.focus-column-right = { };
+
+      # "Mod+S".action.screenshot = { };
+      # "Mod+Space".action.spawn = [
+      #   "noctalia-shell"
+      #   "ipc"
+      #   "call"
+      #   "launcher"
+      #   "toggle" # ✅
+      # ];
       "XF86AudioRaiseVolume".action.spawn = [
         "wpctl"
         "set-volume"
@@ -184,18 +207,6 @@
         "@DEFAULT_AUDIO_SINK@"
         "0.05-"
       ];
-
-      "Mod+Q".action.close-window = { };
-      "Mod+Return".action.maximize-column = { };
-      # "Alt+Tab".action.focus-column-right-or-first = { };
-      "Alt+O".action.toggle-overview = { };
-
-      "Mod+Up".action.focus-window-or-workspace-up = { };
-      "Mod+Down".action.focus-window-or-workspace-down = { };
-      "Mod+Left".action.focus-column-left = { };
-      "Mod+Right".action.focus-column-right = { };
-
-      "Mod+S".action.screenshot = { };
     };
 
     window-rules = [

@@ -128,6 +128,7 @@ in
     ripgrep
     nil
     nixfmt
+    nixd
     nodejs
     gcc
     telegram-desktop

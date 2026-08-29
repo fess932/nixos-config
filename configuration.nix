@@ -164,6 +164,7 @@ in
   # harware?
   services.xserver.videoDrivers = [ "nvidia" ];
 
+
   #enable services, apps
   nixpkgs.overlays = [ niri.overlays.niri ];
   programs.niri.enable = true; # enable niri
@@ -186,7 +187,9 @@ in
 
   services.openssh.enable = true;
   # install apps
+  # nixpkgs.overlays = [ claude-code.overlays.default ];
   environment.systemPackages = with pkgs; [
+    claude-code
     vim
     wget
     git
@@ -341,13 +344,13 @@ in
     ]; # включаем экспериментальные функции
   };
   # ollama — локальный LLM-рантайм (CUDA)
-  services.ollama = {
-    enable = true;
-    package = pkgs.ollama-cuda;
-    host = "0.0.0.0"; # слушать в локальной сети (firewall выключен)
-    port = 11434;
-    environmentVariables.OLLAMA_CONTEXT_LENGTH = "32768";
-  };
+  # services.ollama = {
+  #   enable = true;
+  #   package = pkgs.ollama-cuda;
+  #   host = "0.0.0.0"; # слушать в локальной сети (firewall выключен)
+  #   port = 11434;
+  #   environmentVariables.OLLAMA_CONTEXT_LENGTH = "32768";
+  # };
 
   system.stateVersion = "25.11";
 }
