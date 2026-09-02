@@ -6,6 +6,7 @@
 
   users.users.fess932 = {
     isNormalUser = true;
+    linger = true; # user@1000 с загрузки: иначе podman-tcp.socket живёт только при сессии
     shell = pkgs.fish;
     extraGroups = [
       "wheel"

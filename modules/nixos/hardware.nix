@@ -18,4 +18,12 @@
     enable = true;
     freeMemThreshold = 10; # % RAM, при котором earlyoom начнёт действовать
   };
+
+  # Кор-дампы не храним: символов контейнерных бинарей на хосте всё равно нет,
+  # а образ падающего процесса пишется ровно в нехватку памяти. Строка
+  # "dumped core" в журнале остаётся.
+  systemd.coredump.settings.Coredump = {
+    Storage = "none";
+    ProcessSizeMax = 0;
+  };
 }
