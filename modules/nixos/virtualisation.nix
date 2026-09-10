@@ -63,5 +63,7 @@
     podman-tui
     lazydocker
     oxker
+
+		cloud-hypervisor
   ];
 }
