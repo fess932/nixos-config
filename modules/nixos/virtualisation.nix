@@ -39,9 +39,13 @@
       Service = "podman-tcp.service";
     };
   };
-  systemd.user.services.podman-tcp.serviceConfig = {
-    Type = "exec";
-    ExecStart = "${pkgs.podman}/bin/podman system service --time=0";
+  systemd.user.services.podman-tcp = {
+    # rootless podman зовёт newuidmap/newgidmap, а они лежат в /run/wrappers/bin (setuid-обёртки)
+    path = [ "/run/wrappers" ];
+    serviceConfig = {
+      Type = "exec";
+      ExecStart = "${pkgs.podman}/bin/podman system service --time=0";
+    };
   };
 
   environment.sessionVariables = {
@@ -65,5 +69,6 @@
     oxker
 
 		cloud-hypervisor
+		socat
   ];
 }
