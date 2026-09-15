@@ -22,7 +22,7 @@
     enable = true;
 
     shellAliases = {
-      startn = "dbus-run-session niri &> ~/niri.log";
+      startn = "niri-session -l";
       vim = "nvim";
     };
 
@@ -35,9 +35,13 @@
     };
 
     # Выполняется только при логине на первой TTY — автостарт niri.
+    # niri-session запускает niri.service в systemd --user: общая сессионная
+    # шина с gnome-keyring и порталами, поднимается graphical-session.target,
+    # логи в journalctl --user -u niri. Флаг -l обязателен: без него
+    # niri-session перезапускает себя через `fish -l`, а тот снова попадает сюда.
     loginShellInit = ''
       if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
-          dbus-run-session niri &> ~/niri.log
+          niri-session -l
       end
     '';
 
@@ -83,12 +87,12 @@
   programs.bash = {
     enable = true;
     shellAliases = {
-      startn = "dbus-run-session niri &> ~/niri.log";
+      startn = "niri-session -l";
     };
     initExtra = ''
       export PS1="\[\e[38;5;75m\]\u@\h \[\e[38;5;113m\]\w \[\e[38;5;189m\]\$ \[\e[0m\]"
       if [ -z "''${WAYLAND_DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
-        dbus-run-session niri &> ~/niri.log
+        niri-session -l
       fi
     '';
   };

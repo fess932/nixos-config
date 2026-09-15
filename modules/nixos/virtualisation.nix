@@ -1,5 +1,5 @@
 # Контейнеры (podman) и виртуалки (libvirt/QEMU + SPICE).
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   virtualisation = {
@@ -31,20 +31,19 @@
 
   services.spice-vdagentd.enable = true;
 
-  # Движок podman наружу по TCP: тесты с testcontainers ходят сюда с другой машины.
-  systemd.user.sockets.podman-tcp = {
+  # Движок podman наружу по TCP от root: тесты с testcontainers ходят сюда с другой машины,
+  # а шасси стенда запускаются привилегированными (netns, sysfs, модуль openvswitch).
+  systemd.sockets.podman-tcp = {
     wantedBy = [ "sockets.target" ];
     socketConfig = {
       ListenStream = "0.0.0.0:2375";
       Service = "podman-tcp.service";
     };
   };
-  systemd.user.services.podman-tcp = {
-    # rootless podman зовёт newuidmap/newgidmap, а они лежат в /run/wrappers/bin (setuid-обёртки)
-    path = [ "/run/wrappers" ];
+  systemd.services.podman-tcp = {
     serviceConfig = {
       Type = "exec";
-      ExecStart = "${pkgs.podman}/bin/podman system service --time=0";
+      ExecStart = "${config.virtualisation.podman.package}/bin/podman system service --time=0";
     };
   };
 
