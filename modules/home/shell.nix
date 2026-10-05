@@ -40,7 +40,7 @@
     # логи в journalctl --user -u niri. Флаг -l обязателен: без него
     # niri-session перезапускает себя через `fish -l`, а тот снова попадает сюда.
     loginShellInit = ''
-      if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" -eq 1
+      if test -z "$WAYLAND_DISPLAY"; and test "$XDG_VTNR" = 1
           niri-session -l
       end
     '';
@@ -91,7 +91,7 @@
     };
     initExtra = ''
       export PS1="\[\e[38;5;75m\]\u@\h \[\e[38;5;113m\]\w \[\e[38;5;189m\]\$ \[\e[0m\]"
-      if [ -z "''${WAYLAND_DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
+      if [ -z "''${WAYLAND_DISPLAY}" ] && [ "''${XDG_VTNR}" = 1 ]; then
         niri-session -l
       fi
     '';
