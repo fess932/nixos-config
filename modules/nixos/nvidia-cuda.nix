@@ -4,6 +4,16 @@
 {
   services.xserver.videoDrivers = [ "nvidia" ];
 
+  # Ранний KMS: без этого nvidia-drm поднимается одновременно с автологином
+  # на tty1, и fbcon успевает перехватить экран уже после старта niri —
+  # compositor рисует, а на мониторе остаётся консоль.
+  boot.initrd.kernelModules = [
+    "nvidia"
+    "nvidia_modeset"
+    "nvidia_uvm"
+    "nvidia_drm"
+  ];
+
   hardware.nvidia = {
     open = false; # если зависает — попробовать переключить
     modesetting.enable = true; # обязателен для Wayland
