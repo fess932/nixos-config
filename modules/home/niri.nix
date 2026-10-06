@@ -1,6 +1,7 @@
 # Оконный менеджер niri и шелл noctalia.
 {
   inputs,
+  options,
   pkgs,
   ...
 }:
@@ -12,6 +13,7 @@
 
   home.packages = [
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    pkgs.wl-clipboard # wl-copy/wl-paste; через него Claude Code читает картинки из буфера
   ];
 
   home.sessionVariables = {
@@ -30,90 +32,83 @@
 
   programs.noctalia = {
     enable = true;
+    # Схема noctalia v5: https://docs.noctalia.dev/noctalia/configuration/
+    # То, что накликано в GUI, лежит в ~/.local/state/noctalia/settings.toml
+    # и перекрывает значения отсюда.
     settings = {
-      dock.enabled = false;
-      settings = {
-        # Вместо атрибутов можно указать строку или путь до .toml.
-        theme = {
-          mode = "dark";
-          source = "builtin";
-          builtin = "Catppuccin";
-        };
-
-        wallpaper = {
-          enabled = true;
-          default.path = "~/Downloads/0f6oxa9y9jlb1.png";
-        };
+      theme = {
+        mode = "dark";
+        source = "builtin";
+        builtin = "Catppuccin";
       };
 
-      bar = {
+      wallpaper = {
+        enabled = true;
+        default.path = "~/Downloads/0f6oxa9y9jlb1.png";
+      };
+
+      # Координаты для погоды, ночного света и авто-темы.
+      location.address = "Belgrade, Serbia";
+
+      osd.position = "bottom_center";
+
+      # Полупрозрачные панели (лаунчер, control center и т.д.); блюр под ними даёт niri.
+      shell.panel.transparency_mode = "glass";
+
+      bar.main = {
         position = "top";
-        showCapsule = false;
-        widgets = {
-          left = [
-            {
-              "colorizeDistroLogo" = false;
-              "customIconPath" = "";
-              "icon" = "noctalia";
-              "id" = "ControlCenter";
-              "useDistroLogo" = false;
-            }
-            {
-              "id" = "SystemMonitor";
-              "showCpuTemp" = true;
-              "showCpuUsage" = true;
-              "showDiskUsage" = false;
-              "showMemoryAsPercent" = false;
-              "showMemoryUsage" = true;
-              "showNetworkStats" = false;
-              "usePrimaryColor" = false;
-            }
+        background_opacity = 0.75;
+        capsule = false;
+        margin_ends = 28;
+        radius = 8;
 
-            {
-              id = "MediaMini";
-              maxWidth = 200;
-              useFixedWidth = false;
-              showAlbumArt = false;
-              showVisualizer = true;
-              visualizerType = "linear";
-            }
+        start = [
+          "control-center"
+          "cpu"
+          "cpu-temp"
+          "ram"
+          "media"
+          "audio_visualizer"
+        ];
+        center = [ "workspaces" ];
+        end = [
+          "tray"
+          "clock"
+          "notifications"
+        ];
+      };
 
-          ];
-          center = [
-            {
-              hideUnoccupied = false;
-              id = "Workspace";
-              labelMode = "none";
-            }
+      # Имя виджета в списках бара -> его тип и настройки.
+      widget = {
+        cpu = {
+          type = "sysmon";
+          stat = "cpu_usage";
+        };
+        cpu-temp = {
+          type = "sysmon";
+          stat = "cpu_temp";
+        };
+        ram = {
+          type = "sysmon";
+          stat = "ram_used";
+        };
 
-          ];
-          right = [
+        media = {
+          max_length = 200;
+          hide_album_art = true;
+          hide_when_no_media = true;
+        };
 
-            {
-              id = "Tray";
-              blacklist = [ ];
-            }
-            {
-              formatHorizontal = "HH:mm    [dd dddd]";
-              formatVertical = "HH mm";
-              id = "Clock";
-              useMonospacedFont = true;
-              usePrimaryColor = true;
-            }
-            {
-              id = "NotificationHistory";
-            }
-          ];
+        workspaces.show_labels = false;
+
+        clock = {
+          format = "{:%H:%M    [%d %A]}";
+          font_family = "monospace";
+          color = "primary";
         };
       };
-      location = {
-        monthBeforeDay = false;
-        name = "Belgrade, Serbia";
-      };
-
-      osd.location = "bottom_center";
     };
-    # settings целиком можно заменить строкой или путём до JSON —
+    # settings целиком можно заменить строкой или путём до .toml —
     # но тогда в нём должны быть ВСЕ настройки.
   };
 
@@ -165,6 +160,12 @@
         "control-center"
       ];
 
+      "Alt+Shift+S".action.spawn = [
+        "noctalia"
+        "msg"
+        "screenshot-region"
+      ];
+
       "Mod+Q".action.close-window = { };
       "Mod+Return".action.maximize-column = { };
       "Alt+O".action.toggle-overview = { };
@@ -213,5 +214,55 @@
       }
     ];
 
+  };
+
+  # Блюр под баром/панелями noctalia и под полупрозрачными окнами (niri >= 26.04).
+  # В programs.niri.settings этих опций пока нет, поэтому дописываем сырой KDL
+  # к тому, что сгенерировано из settings.
+  programs.niri.config =
+    inputs.niri.lib.kdl.serialize.nodes options.programs.niri.config.default
+    + ''
+
+      window-rule {
+          background-effect {
+              blur true
+              xray false
+          }
+      }
+
+      // xray false — размывать то, что реально под панелью, а не обои.
+      layer-rule {
+          match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
+          background-effect {
+              xray false
+          }
+      }
+
+      layer-rule {
+          match namespace="noctalia-window-switcher"
+          background-effect {
+              blur true
+              xray false
+          }
+      }
+    '';
+
+  # Действия сессии как «приложения»: лаунчер ранжирует приложения намного выше
+  # встроенных действий /session, так что `reboot` + Enter попадает сюда первым.
+  xdg.desktopEntries = {
+    noctalia-reboot = {
+      name = "Reboot";
+      comment = "Перезагрузить компьютер";
+      icon = "system-reboot";
+      exec = "noctalia msg session reboot";
+      categories = [ "System" ];
+    };
+    noctalia-shutdown = {
+      name = "Shutdown";
+      comment = "Выключить компьютер";
+      icon = "system-shutdown";
+      exec = "noctalia msg session shutdown";
+      categories = [ "System" ];
+    };
   };
 }
